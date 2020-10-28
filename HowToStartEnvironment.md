@@ -13,3 +13,7 @@ python setup.py build_ext --inplace
 sudo docker run --gpus all  -it -v `pwd`:/home/ kitazawa/dvr bash
 
 source activate dvr
+
+起動してるコンテナにログイン
+
+sudo docker exec -it
