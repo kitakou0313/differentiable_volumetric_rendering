@@ -1,14 +1,14 @@
 method: dvr
 data:
   dataset_name: Shapes3D
-  path: data/plane
+  path: data/ShapeNet
   classes: null
   input_type: image
   dim: 3
   n_views: 0
   n_views_input: 0
   pointcloud_chamfer_file: pointcloud.npz
-  depth_folder: depth
+  depth_folder: null
   img_folder: image
   img_folder_input: img_choy2016
   visual_hull_depth_folder: visual_hull_depth
