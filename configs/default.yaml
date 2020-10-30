@@ -69,7 +69,7 @@ training:
   depth_loss_on_world_points: False
   use_cube_intersection: true
   always_freespace: True
-  multi_gpu: false
+  multi_gpu: true
 test:
   eval_file_name: eval_meshes
   threshold: 0.5
