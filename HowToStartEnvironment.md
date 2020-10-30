@@ -1,6 +1,6 @@
 新しいマシンで起動する場合
 
-docker build .
+docker build -t kitazawa/dvr .
 
 （コンテナ内で）
 
