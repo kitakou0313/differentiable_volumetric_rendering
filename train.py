@@ -31,6 +31,7 @@ if __name__ == '__main__':
     # Shorthands
     out_dir = cfg['training']['out_dir']
     backup_every = cfg['training']['backup_every']
+    backup_every_epoch = cfg['training']['backup_every_epoch']
     exit_after = args.exit_after
     lr = cfg['training']['learning_rate']
     batch_size = cfg['training']['batch_size']
@@ -83,6 +84,8 @@ if __name__ == '__main__':
         load_dict = dict()
 
     epoch_it = load_dict.get('epoch_it', -1)
+    if epoch_it != -1:
+        epoch_it -= 1
     it = load_dict.get('it', -1)
     metric_val_best = load_dict.get(
         'loss_val_best', -model_selection_sign * np.inf)
@@ -138,10 +141,12 @@ if __name__ == '__main__':
                                 loss_val_best=metric_val_best)
 
             # Backup if necessary
+            """
             if (backup_every > 0 and (it % backup_every) == 0):
                 logger_py.info('Backup checkpoint')
                 checkpoint_io.save('model_%d.pt' % it, epoch_it=epoch_it, it=it,
                                 loss_val_best=metric_val_best)
+            """
 
             # Run validation
             if validate_every > 0 and (it % validate_every) == 0:
@@ -169,3 +174,9 @@ if __name__ == '__main__':
 
         # Make scheduler step after full epoch
         scheduler.step()
+        #sava of per epoch
+
+        if (backup_every_epoch > 0 and epoch_it != 0 and (epoch_it % backup_every_epoch) == 0):
+                logger_py.info('Backup checkpoint')
+                checkpoint_io.save('model_epoch_{0}_iter_{1}.pt'.format(epoch_it,it), epoch_it=epoch_it, it=it,
+                                loss_val_best=metric_val_best)
