@@ -1,0 +1,17 @@
+inherit_from: configs/onlyPlaneSetting.yaml
+test:
+  eval_file_name: eval_meshes
+  threshold: 0.5
+  model_file: model_epoch_10000_iter_1770333.pt
+generation:
+  batch_size: 1
+  vis_n_outputs: 30
+  generation_dir: generation/10000
+  simplify_nfaces: null
+  padding: 0.0
+  resolution_0: 32
+  upsampling_steps: 3
+  refinement_step: 30
+  refine_max_faces: 10000
+  with_colors: true
+  mesh_extension: ply
