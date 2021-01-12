@@ -2,7 +2,7 @@ method: dvr
 data:
   dataset_name: Shapes3D
   path: data/planeAndChair
-  classes: ["02691156","02828884"]
+  classes: ["02828884"]
   input_type: image
   dim: 3
   n_views: 0
