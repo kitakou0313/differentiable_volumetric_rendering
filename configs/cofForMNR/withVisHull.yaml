@@ -19,7 +19,7 @@ model:
   lambda_occupied: 1.
   lambda_freespace: 1.
   lambda_rgb: 1.
-  lambda_depth: 1.
+  lambda_depth: 0.
   lambda_image_gradients: 0.
   lambda_sparse_depth: 0.
   lambda_normal: 0.05
