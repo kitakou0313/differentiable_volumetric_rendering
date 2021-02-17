@@ -1,0 +1,66 @@
+data:
+  dataset_name: NMR
+  path: data/NMR_Dataset
+  train_split: softras_train
+  val_split: softras_val
+  test_split: softras_test
+  img_folder_input: image
+  img_extension_input: png
+  depth_from_visual_hull: false
+  depth_range: [0., 5.]
+  classes: ['02958343']
+model:
+  decoder: simple
+  encoder: resnet18
+  decoder_kwargs:
+    hidden_size: 128
+  depth_function_kwargs:
+    max_points: 10000
+  lambda_occupied: 1.
+  lambda_freespace: 1.
+  lambda_rgb: 1.
+  lambda_depth: 0.
+  lambda_image_gradients: 0.
+  lambda_sparse_depth: 0.
+  lambda_normal: 0.05
+training:
+  out_dir:  out/NMRPlane/WithOutVisuHull
+  n_workers: 0
+  model_selection_metric: mask_intersection
+  model_selection_mode: maximize
+  batch_size: 16
+  batch_size_val: 4
+  n_training_points: 512
+  n_eval_points: 512
+  print_every: 10
+  checkpoint_every: 200
+  visualize_every: 10000
+  validate_every: 2000
+  backup_every: 50000
+  backup_every_epoch: 250
+  learning_rate: 0.0001
+test:
+  eval_file_name: eval_meshes
+  threshold: 0.5
+  model_file: model_best.pt
+generation:
+  batch_size: 1
+  vis_n_outputs: 30
+  generation_dir: generation
+  simplify_nfaces: null
+  padding: 0.0
+  resolution_0: 32
+  upsampling_steps: 3
+  refinement_step: 30
+  refine_max_faces: 10000
+  with_colors: true
+  mesh_extension: ply
+rendering:
+  render_dir: rendering
+  colors: rgb
+  resolution: [256, 256]
+  ray_sampling_accuracy: [1024, 1025]
+  extension: jpg
+  n_views: 1
+  n_start_view: 0
+  background: white
