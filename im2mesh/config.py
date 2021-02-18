@@ -179,7 +179,7 @@ def get_dataset(cfg, mode='train', return_idx=False, return_category=False,
             transform=resize_img_transform,
             with_mask=False, with_camera=False,
             extension=cfg['data']['img_extension_input'],
-            n_views=cfg['data']['n_views_input'], random_view=True)
+            n_views=cfg['data']['n_views_input'], random_view=False)
 
     else:
         input_field = None
