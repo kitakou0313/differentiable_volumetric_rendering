@@ -1,8 +1,26 @@
 
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
+import numpy as np
 from im2mesh.layers import ResnetBlockFC
 
+device = torch.device("cuda")
+
+def mapInputCordToFourier(x):
+    """
+    Fourier特徴に変換
+    3次元to6次元
+    """
+    xNP = x.to('cpu').detach().numpy().copy()
+    B = np.eye(3)
+
+    xProj = (2.*np.pi*xNP) @ B.T
+    Ffourier = np.concatenate([np.sin(xProj), np.cos(xProj)], axis=-1)
+
+    return torch.from_numpy(Ffourier.astype(np.float32)).clone().to(device)
+
+MAPPED_INPUT_SIZE = 3*2
 
 class Decoder(nn.Module):
     ''' Decoder class.
@@ -31,7 +49,7 @@ class Decoder(nn.Module):
         self.out_dim = out_dim
 
         # Submodules
-        self.fc_p = nn.Linear(dim, hidden_size)
+        self.fc_p = nn.Linear(dim*2, hidden_size)
         self.fc_out = nn.Linear(hidden_size, out_dim)
 
         if c_dim != 0:
@@ -53,7 +71,8 @@ class Decoder(nn.Module):
 
         assert((len(p.shape) == 3) or (len(p.shape) == 2))
 
-        net = self.fc_p(p)
+        pMapped = mapInputCordToFourier(p)
+        net = self.fc_p(pMapped)
         for n in range(self.n_blocks):
             if self.c_dim != 0 and c is not None:
                 net_c = self.fc_c[n](c)
