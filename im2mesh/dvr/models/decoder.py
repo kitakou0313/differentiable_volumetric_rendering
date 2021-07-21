@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import torch
 import numpy as np
 from im2mesh.layers import ResnetBlockFC
+import math
 
 device = torch.device("cuda")
 
@@ -12,13 +13,8 @@ def mapInputCordToFourier(x):
     Fourier特徴に変換
     3次元to6次元
     """
-    xNP = x.to('cpu').detach().numpy().copy()
-    B = np.eye(3)
-
-    xProj = (2.*np.pi*xNP) @ B.T
-    Ffourier = np.concatenate([np.sin(xProj), np.cos(xProj)], axis=-1)
-
-    return torch.from_numpy(Ffourier.astype(np.float32)).clone().to(device)
+    xProj = (2.*torch.tensor(math.pi)*x).to(device)
+    return torch.cat([torch.sin(xProj), torch.cos(xProj)], axis=-1).to(device)
 
 MAPPED_INPUT_SIZE = 3*2
 
